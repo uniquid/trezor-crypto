@@ -1,6 +1,7 @@
-CC        = gcc
+#CC        = gcc
 
-OPTFLAGS  = -O3 -g
+#OPTFLAGS  = -O3 -g
+OPTFLAGS = -O0 -g -gdwarf-3
 
 CFLAGS   += $(OPTFLAGS) \
             -std=gnu99 \
@@ -50,7 +51,9 @@ OBJS   = $(SRCS:.c=.o)
 TESTLIBS = -lcheck -lrt -lpthread -lm
 TESTSSLLIBS = -lcrypto
 
-all: tests test-openssl libtrezor-crypto.so test_speed tools
+#all: tests test-openssl libtrezor-crypto.so test_speed tools
+all: test-openssl libtrezor-crypto.so tools
+
 
 %.o: %.c %.h options.h
 	$(CC) $(CFLAGS) -o $@ -c $<
