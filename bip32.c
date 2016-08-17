@@ -435,12 +435,12 @@ void hdnode_serialize(const HDNode *node, uint32_t fingerprint, uint32_t version
 
 void hdnode_serialize_public(const HDNode *node, uint32_t fingerprint, char *str, int strsize)
 {
-	hdnode_serialize(node, fingerprint, 0x0488B21E, 1, str, strsize);
+	hdnode_serialize(node, fingerprint, VERSION_KPUB, 1, str, strsize);
 }
 
 void hdnode_serialize_private(const HDNode *node, uint32_t fingerprint, char *str, int strsize)
 {
-	hdnode_serialize(node, fingerprint, 0x0488ADE4, 0, str, strsize);
+	hdnode_serialize(node, fingerprint, VERSION_KPRIV, 0, str, strsize);
 }
 
 // check for validity of curve point in case of public data not performed
@@ -453,10 +453,10 @@ int hdnode_deserialize(const char *str, HDNode *node)
 	}
 	node->curve = get_curve_by_name(SECP256K1_NAME);
 	uint32_t version = read_be(node_data);
-	if (version == 0x0488B21E) { // public node
+	if (version == VERSION_KPUB) { // public node
 		MEMSET_BZERO(node->private_key, sizeof(node->private_key));
 		memcpy(node->public_key, node_data + 45, 33);
-	} else if (version == 0x0488ADE4) { // private node
+	} else if (version == VERSION_KPRIV) { // private node
 		if (node_data[45]) { // invalid data
 			return -2;
 		}

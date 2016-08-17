@@ -29,6 +29,17 @@
 #include "ecdsa.h"
 #include "options.h"
 
+#define TESTNET
+#ifdef TESTNET
+	#define NETWORK_BYTE 0x6f
+	#define VERSION_KPUB    0x043587CF
+	#define VERSION_KPRIV   0x04358394
+#else
+	#define NETWORK_BYTE 0x00
+	#define VERSION_KPUB    0x0488B21E
+	#define VERSION_KPRIV   0x0488ADE4
+#endif
+
 typedef struct {
 	const char *bip32_name;    // string for generating BIP32 xprv from seed
 	const ecdsa_curve *params; // ecdsa curve parameters, null for ed25519
